@@ -1,0 +1,1 @@
+En esta carpeta se generara la documentación de las clases usando YuiDoc

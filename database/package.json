@@ -1,0 +1,20 @@
+{
+    "name": "entrenamiento_jcardenas",
+    "description": "entrenamiento_jcardenas data base",
+    "version": "1.0.3",
+    "author": "",
+    "dependencies": {
+        "gulp": "3.9.1",
+        "gulp-pretty-data": "0.1.1",
+        "gulp-concat": "2.6.1",
+        "gulp-header": "1.8.8",
+        "gulp-footer": "1.0.5",
+        "semver": "5.1.0",
+        "username": "2.2.2",
+        "gulp-tar": "1.9.0",
+        "gulp-gzip": "1.4.0",
+        "gulp-param": "1.0.3",
+        "fs-extra": "3.0.1",
+        "glob": "7.1.1"
+    }
+}

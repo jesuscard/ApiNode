@@ -1,0 +1,11 @@
+{
+  "name": "sigis-db",
+  "description": "control version for sigis data bases",
+  "version": "1.1.2",
+  "author" :"rbruno <robert.bruno@sigis.com.ve>",
+  "dependencies": {
+       "ejs" : "2.5.6",
+       "glob" : "7.1.2",
+       "chalk" : "1.1.3"
+  }
+}

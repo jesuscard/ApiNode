@@ -1,0 +1,8 @@
+database/node_modules
+database/.editorConfig
+database/.yo-rc.json
+database/build/*
+
+webapp/bower_components
+nodejs-api/node_modules
+nodejs-api/src/node_modules

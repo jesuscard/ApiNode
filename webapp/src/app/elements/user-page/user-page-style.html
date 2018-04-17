@@ -1,0 +1,116 @@
+<link rel="import" href="../../assets/styles/app-theme.html">
+
+<dom-module id="user-page-style">
+
+  <template>
+
+    <style>
+
+    :host {
+      display: block;   
+      padding-top: 2px;
+      z-index: 1;
+    }
+    .card {
+      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+      padding: 16px;
+      margin: 24px;
+      border-radius: 5px;
+      background-color: #fff;
+      color: #757575;
+    }
+    
+    #toast0{
+      width: 20%;
+      height: 15%;
+    }
+
+    .blue-button {
+      color: #1565C0;
+      text-decoration: underline;
+      top: 18px;
+      left: 38px;
+    }
+
+    h1 {
+      font-size: 22px;
+      margin: 16px 0;
+      color: #212121;
+    }
+
+    app-toolbar {
+      background-color: #AA00FF;
+      scolor: #fff;
+    }
+
+    grid1 data-table-row:not([header]) data-table-cell {
+      height: 60px;
+    }
+  
+
+    #grid1 {
+      font-family: 'Roboto', 'Noto', sans-serif;
+
+      --iron-data-table-header: {
+        z-index: 0;
+        background-color: #E0E0E0;
+        color: #00000;
+        font-size: 1.2em;
+        font-weight: 400;
+      }
+      --iron-data-table-row: {
+        height: 60px;
+        align-items: center;
+      }
+      --iron-data-table-row-odd: {
+        background-color: #F5F5F5;
+      }
+      --iron-data-table-row-even: {
+        background-color: #fff;
+      }
+      --iron-data-table-row-hover: {
+        background-color: #ECEFF1 !important;
+      }
+
+      --iron-data-table-row-after: {
+        background-color: #fff;
+        bottom: 16px;
+        content: "";
+        height: 6px;
+        left: 13px;
+        pointer-events: none;
+        position: absolute;
+        right: 0px;
+        transition: all 1s ease-in-out;
+        -webkit-transform: scaleX(0.0);
+        transform: scaleX(0.0);
+        z-index: 1;
+      }
+
+    }
+    .input-content {
+      margin: 5%;
+    }
+
+    .select-content {
+      margin: 5%;
+      padding-bottom: 22%;
+      
+    }
+
+    .button-content {
+      margin-left: 14%
+    }
+
+    paper-dropdown-menu  {
+      width: 100%;
+    }
+
+
+  </style>
+
+
+</template>
+
+
+</dom-module>

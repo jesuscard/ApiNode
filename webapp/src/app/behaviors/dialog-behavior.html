@@ -1,0 +1,111 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+<script type="text/javascript">
+(function(){
+   var elementUUID = "dialog-behavior_" + new Date().getTime()
+   var __getDialogContent = function(){
+      return [
+         '<h2></h2>',
+         '<paper-dialog-scrollable>',
+         '</paper-dialog-scrollable>',
+         '<div class="buttons">',
+            '<paper-button id="cancel-button" dialog-dismiss>Cancel</paper-button>',
+            '<paper-button id="accept-button" dialog-confirm autofocus>Accept</paper-button>',
+         '</div>'
+      ].join("");
+   };
+   var ___onConfirmed = function() {};
+   var ___onCanceled  = function() {};
+   var ___handleOverLayClosed = function(event){
+      if( event.detail.confirmed ){
+         ___onConfirmed();
+      } else {
+         ___onCanceled();
+      }
+   };
+
+   var dialogBehavior = {
+      properties: {
+         innerDialogObj: {
+            type: Object,
+            value: null
+         }
+      },
+      __getConfirmDialogDefaultOpts: function(){
+         return {
+            accept: this.localize('accept'),
+            cancel: this.localize('cancel'),
+            title: this.localize('confirmation')
+        };
+      },
+      __getDialogDefaultOpts: function(){
+         return {
+            accept: this.localize('accept'),
+            cancel: this.localize('cancel'),
+            title: this.localize('message')
+        };
+      },
+      confirm: function(options,onConfirmed,onCanceled) {
+          if (!this.localize) {
+            return this.error("AppBehavior hasn't loaded localize behavior you must wait its initialization");
+         }
+         this.___handleDialog(this.__getConfirmDialogDefaultOpts(),options,onConfirmed,onCanceled);
+      },
+      alert: function(options,onConfirmed,onCancelled) {
+          if (!this.localize) {
+            return this.error("AppBehavior hasn't loaded localize behavior you must wait its initialization");
+         }
+
+         this.___handleDialog(this.__getDialogDefaultOpts(),options,onConfirmed,onCancelled);
+      },
+      ___handleDialog: function(defaultOpts,options,onConfirmed,onCanceled) {
+        
+         var dialog = this.___getDialogElement();
+         if( typeof options == "string" ){
+            options = { message: options};
+         }
+         options = Object.assign(options,defaultOpts);
+         
+         if (onCanceled != null && typeof onCanceled == "function") {
+            ___onCanceled = onCanceled;
+         } else if( onCanceled != null ){
+            this.warn("onCanceled callback provided but wasn't a function")
+         }
+
+         if( onConfirmed != null && typeof onConfirmed == "function" ) {
+            ___onConfirmed = onConfirmed;
+         }  else if( onConfirmed != null ) {
+            this.warn("onConfirmed callback provided but wasn't a function");
+         }
+         dialog.querySelector('h2').innerHTML = options.title;
+         dialog.querySelector('paper-dialog-scrollable').innerHTML = options.message;
+         dialog.querySelector('#accept-button').innerHTML = options.accept;
+         dialog.querySelector('#cancel-button').innerHTML = options.cancel;
+         dialog.open();
+      },
+      ___getDialogElement: function() {
+         this.innerDialogObj = document.querySelector('#'+elementUUID);
+         if(!this.innerDialogObj) {
+            this.debug("Dialog does not exists")
+            var dialog = document.createElement('paper-dialog');
+            dialog.setAttribute("id",elementUUID);
+            dialog.setAttribute("modal",true);
+            dialog.setAttribute("no-cancel-on-outside-click",true);
+            dialog.addEventListener("iron-overlay-closed",___handleOverLayClosed.bind(this));
+            dialog.innerHTML = __getDialogContent();
+            document.body.appendChild(dialog);
+            this.innerDialogObj = document.querySelector('#'+elementUUID);
+         }
+         return this.innerDialogObj;
+      }
+   };
+   /**
+   * 
+   *  @polymerBehavior DialogBehavior
+   **/
+   window.DialogBehavior = dialogBehavior;
+
+})(window);
+</script>

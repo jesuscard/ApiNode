@@ -1,0 +1,86 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../../../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../../../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../../../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../../../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../../bower_components/iron-icons/iron-icons.html" >
+<link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../../../bower_components/iron-icons/social-icons.html">
+<link rel="import" href="../../../bower_components/iron-icons/maps-icons.html">
+
+
+<link rel="import" href="../../components/user-popover/user-popover.html">
+
+<link rel="import" href="drawer-template-style.html">
+
+
+<dom-module id="drawer-template">
+
+  <template>
+
+  <style include="drawer-template-style" >
+ 
+  </style>
+
+    <app-location route="{{route}}"></app-location>
+    <app-route
+        route="{{route}}"
+        pattern="/:page"
+        data="{{routeData}}"
+        tail="{{subroute}}">        
+    </app-route>
+
+ <app-drawer-layout fullbleed id="app-drawer-layout">
+    <app-toolbar id="toolbar" >
+      <paper-icon-button icon="menu" onclick="drawer.toggle()"></paper-icon-button>
+       <div main-title>[[titulo]]</div><div hidden$="{{show}}"><paper-icon-button icon="maps:map" on-tap="toogle">    
+       </paper-icon-button></div>
+      <paper-progress value="10" indeterminate bottom-item></paper-progress>
+    </app-toolbar>
+    <iron-pages role="main" selected="[[page]]" attr-for-selected="name" fallback-selection="view404">
+      <user-page name="user-page"></user-page>
+      <maps-page name="maps-page"></maps-page>
+      <about-view name="about"></about-view>
+    </iron-pages>
+  <app-header reveals>
+    <app-drawer id="drawer" swipe-open>
+      <br>
+      <div id="imgWrapper">
+        <iron-image alt="SIGIS_logo" src="../../assets/images/logo-sigis_drawer.png" ></iron-image>
+      </div>
+        <h3>{{name}}</h3><h4>{{rol}}</h4>   
+ 
+      <paper-menu>
+        <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
+          <hr>
+          <paper-item>
+             <a on-click="userSelect" name="user-page" href="/user-page"><iron-icon icon="social:person"></iron-icon>
+                          {{localize('users')}}</a> 
+          </paper-item>
+          <hr>
+          <paper-item>
+            <a  on-click="mapsSelect" name="mapsPage" href="/maps-page"><iron-icon icon="social:public"></iron-icon>{{localize('reference')}}</a>
+          </paper-item>
+          <hr>
+          <paper-item>
+            <a on-click="logoutSelect" name="login" href="/login"><iron-icon icon="input"></iron-icon>{{localize('exit')}}</a>
+          </paper-item>
+        </iron-selector>
+      </paper-menu>
+      </app-drawer>
+    </app-header>  
+ </app-drawer-layout> 
+</template>
+  <script src="drawer-template.js"></script>
+</dom-module>

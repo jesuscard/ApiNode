@@ -1,0 +1,74 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../../bower_components/iron-form/iron-form.html">
+
+<link rel="import" href="../../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-input.html">
+
+<link rel="import" href="../../behaviors/app-behavior.html">
+<link rel="import" href="user-popover-styles.html">
+
+<dom-module id="user-popover">
+   <template>
+      <style include="user-popover-styles">
+         :host {
+            display: block;
+         }
+      </style>
+      <paper-menu-button
+          ignore-select
+          no-animations
+          opened="{{opened}}"
+          id="userOptionsPaperElement"
+          no-overlap
+          horizontal-align="right"
+          on-paper-dropdown-close="resetContent">
+         <iron-image id="userOptions"
+            sizing="contain" src="http://git.sigis.com.ve/uploads/user/avatar/5/avatar.png" 
+            class="dropdown-trigger">
+         </iron-image>
+         <div class="dropdown-content">
+            <!--Flecha del menu-->
+            <div hidden$="{{!opened}}" class="arrowUp"></div>
+            <!--Contenido del dropdown-->
+            <div class="user-options-dropdown">
+               <iron-pages selected="{{userOptionsPage}}" attr-for-selected="name">
+                 <section name="user_info">
+                    <div class="user-options-body">
+                    </div>
+                    <div class="user-options-footer">
+                      <paper-button bubbles="false" on-click="editData" class="pull-left" raised>{{localize('edit_data')}}</paper-button>
+                      <paper-button on-click="confirmLogout" class="pull-right" raised>{{localize('log_out')}}</paper-button>
+                    </div>
+                  </section>
+                  <section name="edit_section">
+                     <app-header fixed>
+                        <app-toolbar>
+                           <paper-icon-button icon="arrow-back" on-click="showUserInfo"></paper-icon-button>
+                           <div main-title>Edit data</div>
+                        </app-toolbar>
+                        <div class="user-edit-body">
+                          <!--Formulario de edición para datos del usuario-->
+                          <form is="iron-form" id="editForm">
+                            <paper-input label="" required></paper-input>
+                            <paper-input label="" required></paper-input>
+                            <paper-input label=""></paper-input>
+                          </form>
+                          <!--/Formulario de edición para datos del usuario-->
+                        </div>
+                        <div class="user-options-footer" align="center">
+                          <paper-button on-click="sendEditForm" raised>{{localize('edit_data')}}</paper-button>
+                        </div>
+                     </app-header>
+                  </section>
+               </iron-pages>
+            </div>
+         </div>
+      </paper-menu-button>
+   </template>
+   <script type="text/javascript" src="user-popover.js"></script>
+</dom-module>

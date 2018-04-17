@@ -1,0 +1,87 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<script type="text/javascript" src="../../bower_components/moment/min/moment-with-locales.min.js"></script>
+<script type="text/javascript">
+
+(function() {
+  /**
+   * 
+   *  @polymerBehavior UtilBehavior
+   **/
+   window.UtilBehavior = {
+      moment: function() {
+         return moment.apply(moment,arguments);
+      },
+      isArray: function(targetObj) {
+         return (targetObj && Object.prototype.toString.call(targetObj) == '[object Array]');
+      },
+      hasElements: function(arrayObj) {
+         return (arrayObj.length > 0);
+      },
+      isEmpty: function(string) {
+         return !(/[^*\s]/.test(string));
+      },
+      indexOfObj: function(value,property,arrayObj) {
+         for (var i = 0; i < arrayObj.length;i++){
+            var objectItem = arrayObj[i];
+            if (objectItem[property] == value ){
+               return i;
+            }
+         }
+         return -1;
+      },
+      /**
+       * 
+       * 
+       * @method objectIsEmtpy
+       * 
+       **/
+      objectIsEmtpy : function(targetObj) {
+         var objKeys = Object.keys(targetObj);   
+         return (objKeys.length <= 0);
+      },
+      serializeParams : function(obj, prefix) {
+         var str = [];
+         for ( var p in obj) {
+            if (obj.hasOwnProperty(p)) {
+               var k = prefix ? prefix + "[" + p + "]" : p, v = obj[p];
+               if(typeof v != "function"){
+                     str.push(typeof v == "object" ? this.serializeParams(v, k) : encodeURIComponent(k) + "=" + encodeURIComponent(v));
+               }
+            }
+         }
+         return str.join("&");
+      },
+      checkStatus: function(response) {
+         if ( response.status >= 200 && response.status < 300 ) {
+            return response
+         } else {
+            if( response && response.json && typeof response.json == "function") {
+               response.json().then(function(jsonErr){
+                  var error = new Error(jsonErr.message);
+                  error.response = jsonErr;
+                  throw error;
+               });
+            } else {
+               var error = new Error(response.statusText);
+               error.response = response;
+               throw error;
+            }
+         }
+      },
+      parseJSON: function(response) {
+         return response.json();
+      },
+      parseText: function(response) {
+         return response.text();
+      },
+      request: function(endpoint,options) {
+         return fetch(endpoint,options).then(this.checkStatus).then(this.parseJSON);
+      },
+      loadHTML: function(endpoint,opitons) {
+         return fetch(endpoint,options).then(this.checkStatus).then(this.parseText);
+      }
+   };
+
+})(window);
+
+</script>

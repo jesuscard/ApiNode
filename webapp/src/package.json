@@ -1,0 +1,28 @@
+{
+  "name": "webapp-entrenamiento-jcardenas",
+  "version":"1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "css-slam": "^1.2.1",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-delete-file": "^1.0.2",
+    "gulp-html-minifier": "^0.1.8",
+    "gulp-if": "^2.0.2",
+    "gulp-uglify": "^2.0.1",
+    "merge-stream": "^1.0.1",
+    "polymer-build": "^0.8.0"
+  },
+  "dependencies": {
+    "gulp-bump": "^2.6.1",
+    "gulp-filter": "^5.0.0",
+    "gulp-imagemin": "^3.1.1"
+  }
+}

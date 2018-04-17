@@ -1,0 +1,22 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="main-element-styles.html">
+<link rel="import" href="../behaviors/app-behavior.html">
+<link rel="import" href="../layouts/drawer-layout/drawer-template.html">
+
+<dom-module id="main-element">
+   <template>
+      <style include="main-element-styles">
+         :host {
+            display: block;
+         }
+
+      </style>
+    <template is="dom-if" if="{{login}}">
+        <drawer-template></drawer-template>
+    </template>
+     <template is="dom-if" if="{{!login}}">
+        <log-in></log-in>
+    </template>        
+   </template>
+   <script type="text/javascript" src="main-element.js"></script>
+</dom-module>

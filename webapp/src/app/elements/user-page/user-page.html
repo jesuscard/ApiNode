@@ -1,0 +1,158 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="user-page-style.html">
+
+<!-- IRON ELEMENT -->
+<link rel="import" href="../../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../../bower_components/iron-label/iron-label.html">
+<!-- PAPER ELEMENT -->
+<link rel="import" href="../../../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../../bower_components/paper-drawer-panel/paper-drawer-panel.html">
+<link rel="import" href="../../../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../../../bower_components/iron-data-table/iron-data-table.html">
+<link rel="import" href="../../../bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../../../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-input-error.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+
+
+
+<dom-module id="user-page">
+  <template >
+
+      <style include="user-page-style"> 
+      paper-fab {
+        position: fixed;
+        right: 25px;
+        bottom: 30px;          
+      }
+
+      app-header {
+        @apply --layout-fixed-top;
+        color: #fff;
+        --app-header-background-rear-layer: {
+          background-color: #ef6c00;
+        };
+      }
+      
+      paper-input {
+        text-align: left;
+        --paper-input-error: {
+          white-space: normal;
+          width: -webkit-fill-available;
+        };
+      }
+
+      paper-icon-button.delete{
+        align: right;
+      }
+
+      paper-item{
+        padding-left: 0px;
+      }
+
+    </style>
+    <div drawer id="rightDrawer" drawer-width="300px" right-drawer force-narrow>
+      <app-toolbar id="toolbar">
+        <paper-icon-button icon="search" on-click="changeTheme" ></paper-icon-button>
+        <div hidden$="{{ocultar}}" style="width: 100%;"><paper-input label="BUSCAR..." id="searching" value="{{searchItem}}" on-keyup="search"></paper-input></div>
+        <div hidden$="{{ocultar}}"><paper-icon-button on-click="closeToolbarSearch" icon="close"></paper-icon-button></div>
+        <span class="title"></span>
+        <div hidden$="{{hide}}" ><paper-icon-button on-click="deleteData" icon="delete" class="delete" ></paper-icon-button></div>
+      </app-toolbar>
+      
+
+      <iron-ajax url="http://192.168.1.7:9021/users" last-response="{{users}}" auto></iron-ajax>
+      <template is="dom-if" if="{{!users.data}}">
+        <p class="alert-error"><strong></strong> No hay usuarios registrados en el sistema</p>
+      </template>
+      <template is="dom-if" if="{{users.data}}" >
+        <iron-data-table  id="grid1" items="[[users.data]]" selection-enabled multi-selection  selected-items="{{selectedItems}}" >
+          <data-table-column name="Nombre" sort-by="nombre" >
+           <template>[[item.nom_usu]]</template>
+         </data-table-column>
+         <data-table-column name="Apellido" sort-by="apellido">
+           <template>[[item.ape_usu]]</template>
+         </data-table-column>
+         <data-table-column name="Usuario" sort-by="usuario">
+           <template>[[item.log_usu]]</template>
+         </data-table-column>
+         <data-table-column name="Rol" sort-by="rol">
+          <template>[[tipoRol(item.niv_adm)]]</template>
+        </data-table-column>
+      </iron-data-table>
+    </template>
+
+    <template is="dom-if" if = "{{userAdmin}}" >      
+      <paper-fab icon="add" id="icon" title="new" on-tap="_toggleDrawer"></paper-fab>
+    </template>
+    
+      <paper-toast id="toast0" duration="0" text="{{message}}">
+        <paper-button on-click="toastToggle" class="blue-button">Aceptar</paper-button>
+      </paper-toast>
+    
+    <div id="output">[[list]]</div>
+    <br>
+    <div id="outputServer"></div>
+    </div>
+    <div id="draweruser" >        
+      <app-drawer align="end" opened="{{drawerOpened}}" id="appDrawer">
+        <paper-menu>
+          <paper-item >
+            <a href="#"  id="textIcon"><iron-icon icon="close"></iron-icon> AGREGAR NUEVO USUARIO</a>
+          </paper-item>
+        </paper-menu>
+        <form is="iron-form" id="formUser">
+          <div class="card-content">
+            <template is="dom-if" if="[[error]]">
+              <p class="alert-error"><strong></strong> [[error.messages]]</p>
+            </template>
+            <div>
+              <paper-input  is="iron-input" name="firstname" label="Nombre" type="text" required auto-validate minlength="3"  pattern="[a-z]*" id="firstname"
+              error-message="Por favor ingrese los campos obligatorios (*) faltantes"
+              bind-value="{{formData.firstname}}"  id="prueba"> </paper-input>
+            </div>
+            <div>
+              <paper-input  is="iron-input" name="lastname" label="Apellido"  required auto-validate minlength="3" pattern="[a-z]*" id="lastname"
+              error-message="Por favor ingrese los campos obligatorios (*) faltantes"     
+              bind-value="{{formData.lastname}}"></paper-input>
+            </div>
+            <div>
+              <paper-input  is="iron-input" name="username" label="Usuario" type="text" required auto-validate minlength="3"  pattern="[a-z]*" id="username"
+              error-message="Por favor ingrese los campos obligatorios (*) faltantes"
+              bind-value="{{formData.username}}" ></paper-input>
+            </div>
+            <div >
+              <paper-input  is="iron-input" name="password" label="Contraseña" type="password"  required auto-validate minlength="3"  pattern="[a-z]*" id="password"
+              error-message="Por favor ingrese los campos obligatorios (*) faltantes"
+              bind-value="{{formData.password}}" ></paper-input>
+            </div>
+            <div class="select-content">
+                <paper-dropdown-menu name="niv_adm" id="niv_adm" label="Rol" auto-validate required error-message="Campo obligatorio!" >
+                  <paper-listbox slot="dropdown-content" class="dropdown-content" selected= "{{selected}}" attr-for-selected="value" >
+                    <paper-item  value="false" label="Digitalizador" bind-value="false">Digitalizador</paper-item>
+                    <paper-item value="true" label="Administrador" bind-value="true" >Administrador</paper-item>
+                  </paper-listbox>
+                </paper-dropdown-menu>
+            </div>
+              <input is="iron-input" name="level" id="hiddenSelected" type="hidden" value="[[selected]]"> 
+          </div> 
+          <div class="card-actions">
+            <paper-button on-tap="sendForm" raised class="primary">Aceptar</paper-button> <paper-button on-tap="formReset" raised>Cancelar</paper-button>
+          </div>
+        </form>
+      </app-drawer>
+    </div>
+  </template>
+  <script src="user-page.js"></script>
+</dom-module>

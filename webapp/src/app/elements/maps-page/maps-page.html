@@ -1,0 +1,75 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="maps-page-style.html">
+
+<link rel="import" href="../../../bower_components/leaflet-map/leaflet-map.html">
+<link rel="import" href="../../../bower_components/paper-drawer-panel/paper-drawer-panel.html">
+<link rel="import" href="../../../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../../bower_components/paper-button/paper-button.html">
+
+
+<dom-module id="maps-page">
+  <template>
+    <style include="maps-page-style"></style>
+    
+    <iron-ajax url="http://192.168.1.7:9021/estados" last-response="{{states}}" auto></iron-ajax>
+
+    <leaflet-map fit-to-markers id="mapsPage" latitude="10.50" longitude="-66.80" zoom="10"></leaflet-map>
+
+    <paper-toast id="toast0" text="{{message}}">
+      <paper-button on-click="toastToggle" class="blue-button">Aceptar</paper-button>
+    </paper-toast>
+    <div id="draweruser" >     
+      <app-drawer align="end" opened="{{drawerOpened}}" id="appDrawer">
+        <paper-menu>
+          <paper-item >
+            <a href="#"  id="textIcon"><iron-icon icon="close"></iron-icon></a>
+          </paper-item>
+        </paper-menu>
+        <form is="iron-form" id="formUser">
+          <div class="card-content">
+           <template is="dom-if" if="[[error]]">
+            <p class="alert-error"><strong></strong> [[error.messages]]</p>
+          </template>
+          <div class="select-content">
+            <paper-dropdown-menu name="estados" id="estados" label="Estados" auto-validate required error-message="Campo obligatorio!" >
+              <template is="dom-repeat" items="{{states.data}}" sort="statesSort">
+              <paper-listbox slot="dropdown-content" class="dropdown-content" selected= "{{selectedState}}" attr-for-selected="value" >
+                  <paper-item value="{{item.cod_edo}}" label="{{states.nom_edo}}">[[item.nom_edo]]</paper-item>
+              </paper-listbox>
+              </template>
+            </paper-dropdown-menu>
+            <paper-dropdown-menu name="municipios" id="municipios" label="Municipios" auto-validate required error-message="Campo obligatorio!" >
+              <template is="dom-repeat" items="{{municipalities.data}}" id="munucipiosTemplate" sort="municipalitiesSort">
+              <paper-listbox slot="dropdown-content" class="dropdown-content" selected= "{{selectedMunicipalities}}" attr-for-selected="value" id="listMunucialities">
+                  <paper-item value="{{item.cod_mun}}" label="{{municipalities.nom_mun}}" >[[item.nom_mun]]</paper-item>
+              </paper-listbox>
+              </template>
+            </paper-dropdown-menu>
+            <paper-dropdown-menu name="parroquias" id="parroquias" label="Parroquias" auto-validate required error-message="Campo obligatorio!" >
+              <template is="dom-repeat" items="{{parishes.data}}" id="parroquiasTemplate" sort="parishesSort">
+                <paper-listbox slot="dropdown-content" class="dropdown-content" selected= "{{selectedParishes}}" attr-for-selected="value" id="listParishes" >
+                  <paper-item value="{{item.cod_par}}" label="{{parishes.nom_par}}">[[item.nom_par]]</paper-item>
+                </paper-listbox>
+              </template>
+            </paper-dropdown-menu>
+           
+            <input is="iron-input" name="level" id="hiddenSelected" type="hidden" value="[[selected]]"> 
+          </div>
+          <input is="iron-input" name="level" id="hiddenSelected" type="hidden" value="[[selected]]"> 
+          </div> 
+          <div class="card-actions">
+           <paper-button on-tap="sendForm" raised class="primary">Aceptar</paper-button> <paper-button on-tap="formReset" raised>Cancelar</paper-button>
+          </div>
+        </form>
+    </app-drawer>
+  </div>
+  </template>
+</dom-module>
+<script src="maps-page.js"></script>
+
+
+
+

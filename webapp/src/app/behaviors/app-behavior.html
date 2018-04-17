@@ -1,0 +1,153 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-localize-behavior/app-localize-behavior.html">
+<link rel="import" href="util-behavior.html">
+<link rel="import" href="dialog-behavior.html">
+<script type="text/javascript" src="../config/config.js"></script>
+<script type="text/javascript">
+(function() {
+  var LOG_LEVEL = {
+    LEVEL_DEBUG: 4,
+    LEVEL_INFO: 3,
+    LEVEL_WARNING: 2,
+    LEVEL_ERROR: 1,
+    LEVEL_NONE: 0
+  };
+  /**
+   * 
+   *  @polymerBehavior AppBehavior
+   **/
+  var BaseAppBehavior = {
+    properties: {
+      language: {
+        type: String,
+        notify: true,
+        value : config.language
+      },
+      logLevel: {
+        type: Number,
+        notify: true,
+        value: LOG_LEVEL.LEVEL_DEBUG
+      }
+    },
+    changeLanguage: function(lang) {
+      var event = new CustomEvent("app-behavior-language-changed",{
+        detail: {
+          language: lang
+        }
+      });
+      document.body.dispatchEvent(event);
+    },
+    _setupLanguage : function (event) {
+       this.debug("Setting Language to "+event.detail.language);
+       this.set("language",event.detail.language);
+    },
+    attached : function () {
+       var localesURI = "/app/assets/locales/locales.json";
+       this.debug("attached Element Callback ");
+       this.debug("Loading locales data from resolved url:"+localesURI);
+       this.loadResources(localesURI);
+       document.body.addEventListener("app-behavior-language-changed",this._setupLanguage.bind(this));
+    },
+    getConfig: function(property) {
+      return (config[property]) ? config[property]: null;
+    },
+    formatTimestamp: function(timestamp) {
+      return this.moment(timestamp).format(this.getConfig("timestampFormat"));
+    },
+    formatDate: function(date) {
+      return this.moment(date).format(this.getConfig("dateFormat"));
+    },
+    formatHumanDate: function(date) {
+      return this.moment(date).format(this.getConfig("humanDateFormat"));
+    },
+    toTimestamp: function(dateObj) {
+      return this.moment(dateObj).format("YYYY-MM-DD hh:mm:ss");
+    },
+    toDate: function(dateObj) {
+      return this.moment(dateObj).format("YYYY-MM-DD");
+    },
+    /**
+     * Registra un mensaje de nivel log con el timestamp actual y el nombre
+     * del elemento pasado por parámetro Ejemplo:
+     *
+     * <code>
+     * [2016-08-13 06:03:07][baseBehavior]: Initializing component
+     * </code>
+     *
+     * @method log
+     * @void
+     * @param  {String} message Mensaje a mostrar vía log
+     */
+    log : function (message) {
+       console.log(this._formatMessage(message));
+    },
+    /**
+     * Registra un mensaje de nivel Debug con el timestamp actual y el nombre
+     * del elemento pasado por parámetro.
+     *
+     * @method debug
+     * @void
+     * @param  {String} message Mensaje a mostrar vía debug
+     */
+    debug : function (message) {
+      if( this.logLevel >= LOG_LEVEL.LEVEL_DEBUG ){
+        console.debug(this._formatMessage(message));
+      }
+    },
+    /**
+     * Registra un mensaje de nivel info con el timestamp actual y el nombre
+     * del elemento pasado por parámetro.
+     *
+     * @method info
+     * @void
+     * @param  {String} message Mensaje a mostrar vía info
+     */
+    info : function (message) {
+      if( this.logLevel >= LOG_LEVEL.LEVEL_INFO ){
+       console.info(this._formatMessage(message));
+      }
+    },
+    /**
+     * Registra un mensaje de nivel warn con el timestamp actual y el nombre
+     * del elemento pasado por parámetro.
+     *
+     * @method warn
+     * @void
+     * @param  {String} message Mensaje a mostrar vía warn
+     */
+    warn : function (message) {
+      if( this.logLevel >= LOG_LEVEL.LEVEL_WARNING ){
+        console.warn(this._formatMessage(message));
+      }
+    },
+    /**
+     * Registra un mensaje de nivel error con el timestamp actual y el nombre
+     * del elemento pasado por parámetro.
+     *
+     * @method error
+     * @void
+     * @param  {String} message Mensaje a mostrar vía error
+     */
+    error : function(message,element) {
+       if( this.logLevel >= LOG_LEVEL.LEVEL_ERROR ){
+         console.error(this._formatMessage(message,element));
+       }
+       
+    },
+    _formatMessage : function (message){
+      var formatted = moment().format("YYYY-MM-DD hh:mm:ss")
+      return "[" + this.tagName + "][" + formatted + "]: " + message;
+    }
+  };
+  
+  BaseAppBehavior.LOG_LEVEL = LOG_LEVEL;
+
+  window.AppBehavior = [ 
+    BaseAppBehavior, 
+    UtilBehavior,
+    DialogBehavior,
+    Polymer.AppLocalizeBehavior 
+  ];
+
+})(window);
+</script>

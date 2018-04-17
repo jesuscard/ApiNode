@@ -1,0 +1,122 @@
+<link rel="import" href="../../assets/styles/app-theme.html">
+
+<dom-module id="drawer-template-style">
+  <template>
+    <style>
+
+      :host {
+        display: block;
+        --app-primary-color: #4285f4;
+        --app-secondary-color: black;
+      }
+
+      app-header {
+        @apply --layout-fixed-top;
+        color: #fff;
+        --app-header-background-rear-layer: {
+          background-color: #ef6c00;
+        };
+      }
+
+      app-header paper-icon-button {
+        --paper-icon-button-ink-color: white;
+      }
+
+      h3, h4 {
+        padding-left: 5%;
+        color: black;
+      }
+
+      .drawer-list {
+        margin: 0 20px;
+      }
+      .drawer-list a {
+        display: block;
+        padding: 0 16px;
+        line-height: 40px;
+        text-decoration: none;
+        color: var(--app-secondary-color);
+      }
+      .drawer-list a.iron-selected {
+        color: black;
+        font-weight: bold;
+      }
+      .drawer-list a.subroute {
+        padding-left: 32px;
+      }
+
+       html, body {
+          margin: 0;
+          font-family: 'Roboto', 'Noto', sans-serif;
+          -webkit-font-smoothing: antialiased;
+          background: #f1f1f1;
+          max-height: 368px;
+        }
+
+        app-toolbar {
+          background-color: #4285f4;
+          color: #fff;          
+        }
+
+        paper-icon-button {
+          --paper-icon-button-ink-color: white;
+        }
+
+        paper-icon-button + [main-title] {
+          margin-left: 24px;
+        }
+
+        paper-progress {
+          display: block;
+          width: 100%;
+          --paper-progress-active-color: rgba(255, 255, 255, 0.5);
+          --paper-progress-container-color: transparent;
+        }
+
+        app-drawer {
+          --app-drawer-scrim-background-color: rgba(0, 0, 100, 0.8);
+          --app-drawer-scrim-opacity: 0.5;
+          --app-drawer-content-container: {
+            background-color: white;
+            height: 200%;
+          }
+        }
+
+        sample-content {
+          padding-top: 64px;
+        }
+
+        .drawer-list {
+          margin: 0 20px;
+        }
+        .drawer-list a {
+          display: block;
+          padding: 0 16px;
+          line-height: 40px;
+          text-decoration: none;
+          color: var(--app-secondary-color);
+        }
+        .drawer-list a.iron-selected {
+          color: black;
+          font-weight: bold;
+        }
+        .drawer-list a.subroute {
+          padding-left: 32px;
+        }
+
+        #imgWrapper {
+        width: 350px;
+
+        }
+        iron-image {
+            width:300px;
+        }
+        iron-image::content img {
+            width: 80%;
+         
+        }   
+
+    </style>
+
+  </template>
+</dom-module>

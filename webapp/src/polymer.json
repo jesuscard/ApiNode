@@ -1,0 +1,19 @@
+{
+   "entrypoint": "index.html",
+   "shell": "app/main-element/main-element.html",
+   "fragments": [
+      "app/main-element/log-in.html"
+      
+   ],
+   "sources": [
+      "app/**/*"
+   ],
+   "includeDependencies":[
+      "manifest.json",
+      "polymerSetup.js",
+      "bower.json",
+      "bower_components/fetch/fetch.js",
+      "bower_components/webcomponentsjs/webcomponents.min.js",
+      "bower_components/font-roboto/fonts/roboto/**/*"
+   ]
+}

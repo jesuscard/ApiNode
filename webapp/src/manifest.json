@@ -1,0 +1,8 @@
+{
+  "name": "app-template",
+  "version":"1.0.0",
+  "short_name": "app-template",
+  "description": "Template app",
+  "start_url": "/",
+  "display": "standalone"
+}
